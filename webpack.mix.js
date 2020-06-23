@@ -11,5 +11,29 @@ const mix = require('laravel-mix');
  |
  */
 
+mix.disableNotifications();
+
+mix.webpackConfig({
+  module: {
+    rules: [
+      {
+        test: /\.pug$/,
+        oneOf: [
+          {
+            resourceQuery: /^\?vue/,
+            use: ['pug-plain-loader']
+          },
+          {
+            use: ['raw-loader', 'pug-plain-loader']
+          }
+        ]
+      }
+    ]
+  },
+  resolve: {
+    extensions: ['*', '.js', '.jsx', '.vue']
+  }
+});
+
 mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css');
